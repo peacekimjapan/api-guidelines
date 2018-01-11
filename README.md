@@ -8,6 +8,7 @@
 이 저장소는 Microsoft REST API Guidelines initiative가 주관하는 문서들의 모음과 관련 소재들을 포함하고 있습니다. 이 저장소에 기여하기 위해서는 다음의 링크를 참고 하여 주십시오. [기여 가이드(영어)][contribution-guidance].
 
 ## 한국어 번역에 대해
-이 저장소는 마이크로 소프트의 [Microsoft REST API Guidelines](https://github.com/Microsoft/api-guidelines)를 포크하여 만든 저장소 입니다. 비공식이며 오역 및 의역이 포함되어 있습니다. 지적이 있으시면 ISSUE 혹은 PULL REQUEST를 통해 해결하고자 합니다.
+이 저장소는 마이크로 소프트의 [Microsoft REST API Guidelines](https://github.com/Microsoft/api-guidelines)를 포크하여 만든 저장소 입니다. 비공식이며 오역 및 의역이 포함되어 있습니다. 번역에 대한 지적이 있으시면 ISSUE 혹은 PULL REQUEST를 통해 해결하고자 합니다.
+내용에 대한 기여나 피드백은 [Microsoft REST API Guidelines](https://github.com/Microsoft/api-guidelines)을 통하여 이슈를 발행하시기 바랍니다.
 
 [contribution-guidance]: CONTRIBUTING.md
