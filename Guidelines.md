@@ -1,47 +1,47 @@
-# Microsoft REST API Guidelines
-## Microsoft REST API Guidelines Working Group
+# Microsoft REST API 가이드라인
+## Microsoft REST API 가이드라인 작업 그룹
 
-Name | Name | Name |
+이름 | 이름 | 이름 |
 ---------------------------- | -------------------------------------- | ----------------------------------------
 Dave Campbell (CTO C+E)      | Rick Rashid (CTO ASG)                  | John Shewchuk (Technical Fellow, TED HQ)
 Mark Russinovich (CTO Azure) | Steve Lucco (Technical Fellow, DevDiv) | Murali Krishnaprasad (Azure App Plat)
 Rob Howard (ASG)             | Peter Torr  (OSG)                      | Chris Mullins (ASG)
 
 <div style="font-size:150%">
-Document editors: John Gossman (C+E), Chris Mullins (ASG), Gareth Jones (ASG), Rob Dolin (C+E), Mark Stafford (C+E)<br/>
+문서 편집자: John Gossman (C+E), Chris Mullins (ASG), Gareth Jones (ASG), Rob Dolin (C+E), Mark Stafford (C+E)<br/>
 </div>
 
 
 
-# Microsoft REST API Guidelines
-## 1 Abstract
-The Microsoft REST API Guidelines, as a design principle, encourages application developers to have resources accessible to them via a RESTful HTTP interface.
-To provide the smoothest possible experience for developers on platforms following the Microsoft REST API Guidelines, REST APIs SHOULD follow consistent design guidelines to make using them easy and intuitive.
+# Microsoft REST API 가이드라인
+## 1 개요
+[Microsoft REST API 가이드라인](Guidelines.md)은 하나의 디자인 원칙으로서 개발자들이 리소스에 접근시 RESTful HTTP 인터페이스를 통하여 그것들에 접근할 수 있도록 장려합니다.
+Microsoft REST API Guideline를 준수하는 플렛폼의 개발자들에게 가능한 가장 자연스러운 경험을 제공하기 위해서 REST APIs는 그것들을 쉽고 일관적이게 만들기 위하여 반드시 일관된 디자인을 따라야만 합니다. 
 
-This document establishes the guidelines Microsoft REST APIs SHOULD follow so RESTful interfaces are developed consistently.
+이 문서는 반드시 따라야하며 일관된 RESTful interfaces로 개발된 Microsoft REST APIs 가이드라인을 설정합니다.
 
-## 2 Table of contents
+## 2 목차
 <!-- TOC depthFrom:1 depthTo:3 withLinks:1 updateOnSave:1 orderedList:0 -->
 
-- [Microsoft REST API Guidelines 2.3](#microsoft-rest-api-guidelines-23)
-	- [Microsoft REST API Guidelines Working Group](#microsoft-rest-api-guidelines-working-group)
-- [Microsoft REST API Guidelines](#microsoft-rest-api-guidelines)
-	- [1 Abstract](#1-abstract)
-	- [2 Table of contents](#2-table-of-contents)
-	- [3 Introduction](#3-introduction)
-		- [3.1 Recommended reading](#31-recommended-reading)
-	- [4    Interpreting the guidelines](#4-interpreting-the-guidelines)
-		- [4.1    Application of the guidelines](#41-application-of-the-guidelines)
-		- [4.2    Guidelines for existing services and versioning of services](#42-guidelines-for-existing-services-and-versioning-of-services)
-		- [4.3    Requirements language](#43-requirements-language)
-		- [4.4    License](#44-license)
-	- [5 Taxonomy](#5-taxonomy)
-		- [5.1    Errors](#51-errors)
-		- [5.2    Faults](#52-faults)
-		- [5.3    Latency](#53-latency)
+- [Microsoft REST API 가이드라인 2.3](#microsoft-rest-api-가이드라인-23)
+	- [Microsoft REST API 가이드라인 Working Group](#microsoft-rest-api-guidelines-working-group)
+- [Microsoft REST API 가이드라인](#microsoft-rest-api-가이드라인)
+	- [1 개요](#1-개요)
+	- [2 목차](#2-목차)
+	- [3 소개](#3-소개)
+		- [3.1 추천하는 읽을거리](#31-추천하는-읽을거리)
+	- [4    가이드라인의 해석](#4-가이드라인의-해석)
+		- [4.1    가이드라인의 어플리케이션](#41-가이드라인의-어플리케이션)
+		- [4.2    현존하는 서비스와 서비스 버전에 대한 가이드라인](#42-현존하는-서비스와-서비스-버전에-대한-가이드라인)
+		- [4.3    언어 요구사항](#43-언어-요구사항)
+		- [4.4    라이센스](#44-라이센스)
+	- [5 분류](#5-분류)
+		- [5.1    에러](#51-에러)
+		- [5.2    실패](#52-실패)
+		- [5.3    지연](#53-지연)
 		- [5.4    Time to complete](#54-time-to-complete)
-		- [5.5    Long running API faults](#55-long-running-api-faults)
-	- [6    Client guidance](#6-client-guidance)
+		- [5.5    장기 API 실패](#55-장기-API-실패)
+	- [6    클라이언트 안내](#6-클라이언트-안내)
 		- [6.1    Ignore rule](#61-ignore-rule)
 		- [6.2    Variable order rule](#62-variable-order-rule)
 		- [6.3    Silent fail rule](#63-silent-fail-rule)
@@ -110,7 +110,7 @@ This document establishes the guidelines Microsoft REST APIs SHOULD follow so RE
 
 <!-- /TOC -->
 
-## 3 Introduction
+## 3 소개
 Developers access most Microsoft Cloud Platform resources via HTTP interfaces.
 Although each service typically provides language-specific frameworks to wrap their APIs, all of their operations eventually boil down to HTTP requests.
 Microsoft must support a wide range of clients and services and cannot rely on rich frameworks being available for every development environment.
@@ -131,7 +131,7 @@ These guidelines aim to achieve the following:
 *Note: The guidelines are designed to align with building services which comply with the REST architectural style, though they do not address or require building services that follow the REST constraints.
 The term "REST" is used throughout this document to mean services that are in the spirit of REST rather than adhering to REST by the book.*
 
-### 3.1 Recommended reading
+### 3.1 추천하는 읽을거리
 Understanding the philosophy behind the REST Architectural Style is recommended for developing good HTTP-based services.
 If you are new to RESTful design, here are some good resources:
 
@@ -143,8 +143,8 @@ If you are new to RESTful design, here are some good resources:
 
 [REST in Practice][rest-in-practice] -- Book on the fundamentals of REST.
 
-## 4 Interpreting the guidelines
-### 4.1 Application of the guidelines
+## 4 가이드라인의 해석
+### 4.1 가이드라인의 어플리케이션
 These guidelines are applicable to any REST API exposed publicly by Microsoft or any partner service.
 Private or internal APIs SHOULD also try to follow these guidelines because internal services tend to eventually be exposed publicly.
  Consistency is valuable to not only external customers but also internal service consumers, and these guidelines offer best practices useful for any service.
@@ -153,31 +153,31 @@ There are legitimate reasons for exemption from these guidelines.
 Obviously a REST service that implements or must interoperate with some externally defined REST API must be compatible with that API and not necessarily these guidelines.
 Some services MAY also have special performance needs that require a different format, such as a binary protocol.
 
-### 4.2 Guidelines for existing services and versioning of services
+### 4.2 현존하는 서비스와 서비스 버전에 대한 가이드라인
 We do not recommend making a breaking change to a service that pre-dates these guidelines simply for compliance sake.
 The service SHOULD try to become compliant at the next version release when compatibility is being broken anyway.
 When a service adds a new API, that API SHOULD be consistent with the other APIs of the same version.
 So if a service was written against version 1.0 of the guidelines, new APIs added incrementally to the service SHOULD also follow version 1.0. The service can then upgrade to align with the latest version of the guidelines at the service's next major release.
 
-### 4.3 Requirements language
+### 4.3 언어 요구사항 
 The keywords "MUST," "MUST NOT," "REQUIRED," "SHALL," "SHALL NOT," "SHOULD," "SHOULD NOT," "RECOMMENDED," "MAY," and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt). 
 
-### 4.4 License
+### 4.4 라이센스
 
 This work is licensed under the Creative Commons Attribution 4.0 International License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by/4.0/ or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
 
-## 5 Taxonomy
+## 5 분류
 As part of onboarding to Microsoft REST API Guidelines, services MUST comply with the taxonomy defined below.
 
-### 5.1 Errors
+### 5.1 에러
 Errors, or more specifically Service Errors, are defined as a client passing invalid data to the service and the service _correctly_ rejecting that data.
 Examples include invalid credentials, incorrect parameters, unknown version IDs, or similar.
 These are generally "4xx" HTTP error codes and are the result of a client passing incorrect or invalid data.
 
 Errors do _not_ contribute to overall API availability.
 
-### 5.2 Faults
+### 5.2 실패
 Faults, or more specifically Service Faults, are defined as the service failing to correctly return in response to a valid client request.
 These are generally "5xx" HTTP error codes.
 
@@ -186,19 +186,19 @@ Faults _do_ contribute to the overall API availability.
 Calls that fail due to rate limiting or quota failures MUST NOT count as faults.
 Calls that fail as the result of a service fast-failing requests (often for its own protection) do count as faults.
 
-### 5.3 Latency
+### 5.3 지연
 Latency is defined as how long a particular API call takes to complete, measured as closely to the client as possible.
 This metric applies to both synchronous and asynchronous APIs in the same way.
 For long running calls, the latency is measured on the initial request and measures how long that call (not the overall operation) takes to complete.
 
 ### 5.4 Time to complete
-Services that expose long operations MUST track "Time to Complete" metrics around those operations.
+긴 조작에 노출되어 있는 서비스는 이 조작에 대해 반드시(MUST) "Time To Complete"(완료 해야하는 시간) 기준을 따라야 한다.
 
-### 5.5 Long running API faults
+### 5.5 장기 API 실패
 For a Long Running API, it's possible for both the initial request to begin the operation and the request to retrieve the results to technically work (each passing back a 200), but for the underlying operation to have failed.
 Long Running faults MUST roll up as Faults into the overall Availability metrics.
 
-## 6 Client guidance
+## 6 클라이언트 안내
 To ensure the best possible experience for clients talking to a REST service, clients SHOULD adhere to the following best practices:
 
 ### 6.1 Ignore rule
