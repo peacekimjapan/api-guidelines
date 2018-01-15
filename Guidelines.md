@@ -45,9 +45,9 @@ Microsoft REST API Guideline를 준수하는 플렛폼의 개발자들에게 가
 		- [6.1    Ignore rule](#61-ignore-rule)
 		- [6.2    Variable order rule](#62-variable-order-rule)
 		- [6.3    Silent fail rule](#63-silent-fail-rule)
-	- [7    Consistency fundamentals](#7-consistency-fundamentals)
-		- [7.1    URL structure](#71-url-structure)
-		- [7.2    URL length](#72-url-length)
+	- [7    일관성의 기본](#7-일관성의-기본)
+		- [7.1    URL 구조](#71-url-구조)
+		- [7.2    URL 길이](#72-url-길이)
 		- [7.3    Canonical identifier](#73-canonical-identifier)
 		- [7.4    Supported methods](#74-supported-methods)
 		- [7.5    Standard request headers](#75-standard-request-headers)
@@ -111,17 +111,16 @@ Microsoft REST API Guideline를 준수하는 플렛폼의 개발자들에게 가
 <!-- /TOC -->
 
 ## 3 소개
-Developers access most Microsoft Cloud Platform resources via HTTP interfaces.
-Although each service typically provides language-specific frameworks to wrap their APIs, all of their operations eventually boil down to HTTP requests.
-Microsoft must support a wide range of clients and services and cannot rely on rich frameworks being available for every development environment.
-Thus a goal of these guidelines is to ensure Microsoft REST APIs can be easily and consistently consumed by any client with basic HTTP support.
+개발자들은 마이크로 소프트 클라우드 플랫폼의 리소스에 대부분 HTTP 인터페이스를 통하여 접근합니다.
+비록 각각의 서비스가 일반적으로 API를 변환하는 언어 특유의 프레임워크를 제공한다고 해도, 그 모든 동작들은 결국에 HTTP 리퀘스트로 변환됩니다.
+마이크로소프트는 폭넓은 클라이언트들과 서비스를 제공해야만하며 동시에 모든 개발 환경이 멋지고 완벽할 것이라고 기대해서는 안됩니다.
+그러므로 이 가이드라인의 목표는 마이크로소프트 REST APIs를 기초적인 HTTP를 지원하는 어떠한 클라이언트들이라도 쉽고 일관성있게 소비할수 있도록 하는 것 입니다. 
 
-To provide the smoothest possible experience for developers, it's important to have these APIs follow consistent design guidelines, thus making using them easy and intuitive.
-This document establishes the guidelines to be followed by Microsoft REST API developers for developing such APIs consistently.
+개발자들에게 유연한 경험을 제공하기위해 중요한것은 이러한 API들이 일관적인 디자인 가이드라인을 따르는것 이므로 그것들을 쉽고 직관적이게 만드는 것입니다. 
 
-The benefits of consistency accrue in aggregate as well; consistency allows teams to leverage common code, patterns, documentation and design decisions.
+또한 일관적으로 하는 것의 이익은 누적되어 축적됩니다. 일관성은 팀에게 공통코드, 패턴, 문서화, 디자인 결정등을 제공 할수 있습니다.
 
-These guidelines aim to achieve the following:
+이 가이드라인은 다음의 것들을 목표로 합니다:
 - Define consistent practices and patterns for all API endpoints across Microsoft.
 - Adhere as closely as possible to accepted REST/HTTP best practices in the industry at-large.*
 - Make accessing Microsoft Services via REST interfaces easy for all application developers.
@@ -132,26 +131,27 @@ These guidelines aim to achieve the following:
 The term "REST" is used throughout this document to mean services that are in the spirit of REST rather than adhering to REST by the book.*
 
 ### 3.1 추천하는 읽을거리
-Understanding the philosophy behind the REST Architectural Style is recommended for developing good HTTP-based services.
-If you are new to RESTful design, here are some good resources:
+REST 구조적 스타일의 철학을 이해하는 것은 좋은 HTTP 기반 서비스를 개발하는데에 있어 추천됩니다.
+HTTP 기반 서비스를 개발을 위해 REST의 구조적 스타일의 철학을 이해하는 것을 추천합니다.
+만약 RESTful디자인을 처음 접하신다면 여기에 좋은 자료들이 있습니다.
 
-[REST on Wikipedia][rest-on-wikipedia] -- Overview of common definitions and core ideas behind REST.
+[REST on Wikipedia(영어)][rest-on-wikipedia] -- REST의 공통적인 정의들의 개요와 핵심 아이디어
 
-[REST Dissertation][fielding] -- The chapter on REST in Roy Fielding's dissertation on Network Architecture, "Architectural Styles and the Design of Network-based Software Architectures"
+[REST Dissertation(영어)][fielding] -- The chapter on REST in Roy Fielding's dissertation on Network Architecture, "Architectural Styles and the Design of Network-based Software Architectures"
 
-[RFC 7231][rfc-7231] -- Defines the specification for HTTP/1.1 semantics, and is considered the authoritative resource.
+[RFC 7231(영어)][rfc-7231] -- Defines the specification for HTTP/1.1 semantics, and is considered the authoritative resource.
 
-[REST in Practice][rest-in-practice] -- Book on the fundamentals of REST.
+[REST in Practice(영어)][rest-in-practice] -- REST의 기초 도서
 
 ## 4 가이드라인의 해석
 ### 4.1 가이드라인의 어플리케이션
-These guidelines are applicable to any REST API exposed publicly by Microsoft or any partner service.
-Private or internal APIs SHOULD also try to follow these guidelines because internal services tend to eventually be exposed publicly.
- Consistency is valuable to not only external customers but also internal service consumers, and these guidelines offer best practices useful for any service.
+이 가이드라인은 마이크로소프트 혹은 다른 모든 파트너 서비스들에 의해 공적으로(publicly) 공개된 모든 REST API에 적용됩니다.
+내부용 서비스들 또한 결국 공개적으로 노출되기 때문에 개인(Private) 혹은 내부용(internal) API들 또한 반드시(SHOULD) 이 가이드라인을 따르도록 노력해주십시오. 
+일관성은 외부 고객들에게 뿐만 아니라 내부의 서비스 이용자들에게도 가치가 있습니다. 그리고 이러한 가이드라인은 모든 서비스에 좋은 예시(혹은 훈련)을 제공합니다. 
 
-There are legitimate reasons for exemption from these guidelines.
-Obviously a REST service that implements or must interoperate with some externally defined REST API must be compatible with that API and not necessarily these guidelines.
-Some services MAY also have special performance needs that require a different format, such as a binary protocol.
+언제나 이 가이드라인에 예외사항을 만들 적당한 이유가 있습니다.
+확실히 어떠한 외부에 정의 되어 있는 REST API를 구현하거나 연동하는 REST서비스는 동일한 외부의 API와 맞추어야하고 이 가이드라인에 따를 필요는 없습니다.
+어떠한 서비스는 또한 바이너리 프로토콜과 같이 다른 포맷이 필요한 특수 수행이 필요할수도 있습니다.
 
 ### 4.2 현존하는 서비스와 서비스 버전에 대한 가이드라인
 We do not recommend making a breaking change to a service that pre-dates these guidelines simply for compliance sake.
@@ -160,15 +160,15 @@ When a service adds a new API, that API SHOULD be consistent with the other APIs
 So if a service was written against version 1.0 of the guidelines, new APIs added incrementally to the service SHOULD also follow version 1.0. The service can then upgrade to align with the latest version of the guidelines at the service's next major release.
 
 ### 4.3 언어 요구사항 
-The keywords "MUST," "MUST NOT," "REQUIRED," "SHALL," "SHALL NOT," "SHOULD," "SHOULD NOT," "RECOMMENDED," "MAY," and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt). 
+이 문서에 있는 "MUST," "MUST NOT," "REQUIRED," "SHALL," "SHALL NOT," "SHOULD," "SHOULD NOT," "RECOMMENDED," "MAY," "OPTIONAL"의 단어들은 [RFC 2119(영어)](https://www.ietf.org/rfc/rfc2119.txt)에 의해 해석 되도록 적혀져 있습니다.
 
 ### 4.4 라이센스
-
-This work is licensed under the Creative Commons Attribution 4.0 International License.
-To view a copy of this license, visit http://creativecommons.org/licenses/by/4.0/ or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
+이 작업의 라이센스는 Creative Commons Attribution 4.0 International License를 따릅니다.
+이 라이센스의 상세한 내용은 다음 링크를 방문하거나 [http://creativecommons.org/licenses/by/4.0/](http://creativecommons.org/licenses/by/4.0/) 다음 주소로 편지를 보내 주십시오.
+Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
 
 ## 5 분류
-As part of onboarding to Microsoft REST API Guidelines, services MUST comply with the taxonomy defined below.
+Microsoft REST API 가이드라인의 빠른 적응을 위하여 서비스들은 반드시(MUST) 다음의 분류방법대로 분류되어야 합니다.
 
 ### 5.1 에러
 Errors, or more specifically Service Errors, are defined as a client passing invalid data to the service and the service _correctly_ rejecting that data.
@@ -219,8 +219,8 @@ Clients MAY rely on ordering behavior explicitly identified by the service.
 ### 6.3 Silent fail rule
 Clients requesting OPTIONAL server functionality (such as optional headers) MUST be resilient to the server ignoring that particular functionality.
 
-## 7 Consistency fundamentals
-### 7.1 URL structure
+## 7 일관성의 기본
+### 7.1 URL 구조
 Humans SHOULD be able to easily read and construct URLs.
 
 This facilitates discovery and eases adoption on platforms without a well-supported client library.
@@ -245,7 +245,7 @@ For example, the following is acceptable:
 https://api.contoso.com/v1.0/items?url=https://resources.contoso.com/shoes/fancy
 ```
 
-### 7.2 URL length
+### 7.2 URL 길이
 The HTTP 1.1 message format, defined in RFC 7230, in section [3.1.1][rfc-7230-3-1-1], defines no length limit on the Request Line, which includes the target URL.
 From the RFC:
 
