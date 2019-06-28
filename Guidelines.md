@@ -1,5 +1,5 @@
-# Microsoft REST API Guidelines
-## Microsoft REST API Guidelines Working Group
+# 마이크로소프트 REST API 가이드라인
+## 마이크로소프트 REST API 가이드라인 Working Group
 
 Name | Name | Name |
 ---------------------------- | -------------------------------------- | ----------------------------------------
@@ -13,39 +13,39 @@ Document editors: John Gossman (C+E), Chris Mullins (ASG), Gareth Jones (ASG), R
 
 
 
-# Microsoft REST API Guidelines
-## 1 Abstract
-The Microsoft REST API Guidelines, as a design principle, encourages application developers to have resources accessible to them via a RESTful HTTP interface.
-To provide the smoothest possible experience for developers on platforms following the Microsoft REST API Guidelines, REST APIs SHOULD follow consistent design guidelines to make using them easy and intuitive.
+# 마이크로소프트 REST API 가이드라인
+## 1 개요
+마이크로소프트 REST API 디자인 원칙으로 어플리케이션 개발자들이 리스소에 접근할수 있는 방식으로 RESTful HTTP 인터페이스를 장려합니다.
+마이크로소프트 REST API 가이드라인을 준수하고 있는 플렛폼 개발자들에게 가장 스무스(smooth)한 경험을 제공하기 위해 REST API는 일관된 디자인 가이드라인을 지켜 이것들을 쉽고 직관적으로 사용할수 있게 해야 합니다.
 
-This document establishes the guidelines Microsoft REST APIs SHOULD follow so RESTful interfaces are developed consistently.
+이 문서는 마이크로소프트 REST APIs를 반드시 준수하는 가이드라인으로 설정되어 일관적인 RESTful 인터페이스로 개발될수 있게 합니다.
 
-## 2 Table of contents
+## 2 목차
 <!-- TOC depthFrom:1 depthTo:3 withLinks:1 updateOnSave:1 orderedList:0 -->
 
-- [Microsoft REST API Guidelines 2.3](#microsoft-rest-api-guidelines-23)
-	- [Microsoft REST API Guidelines Working Group](#microsoft-rest-api-guidelines-working-group)
-- [Microsoft REST API Guidelines](#microsoft-rest-api-guidelines)
-	- [1 Abstract](#1-abstract)
-	- [2 Table of contents](#2-table-of-contents)
-	- [3 Introduction](#3-introduction)
-		- [3.1 Recommended reading](#31-recommended-reading)
-	- [4    Interpreting the guidelines](#4-interpreting-the-guidelines)
-		- [4.1    Application of the guidelines](#41-application-of-the-guidelines)
-		- [4.2    Guidelines for existing services and versioning of services](#42-guidelines-for-existing-services-and-versioning-of-services)
-		- [4.3    Requirements language](#43-requirements-language)
-		- [4.4    License](#44-license)
-	- [5 Taxonomy](#5-taxonomy)
+- [마이크로소프트 REST API 가이드라인 2.3](#마이크로소프트-rest-api-가이드라인-23)
+	- [마이크로소프트 REST API 가이드라인 Working Group](#마이크로소프트-rest-api-가이드라인-working-group)
+- [마이크로소프트 REST API 가이드라인](#마이크로소프트-rest-api-가이드라인)
+	- [1 개요](#1-개요)
+	- [2 목차](#2-목차)
+	- [3 소개](#3-소개)
+		- [3.1 추천글](#31-추천글)
+	- [4    가이드라인 분석](#4-가이드라인-분석)
+		- [4.1    가이드라인 어플리케이션](#41-가이드라인-어플리케이션)
+		- [4.2    가이드라인 for existing services and versioning of services](#42-가이드라인-for-existing-services-and-versioning-of-services)
+		- [4.3    용어정의](#43-용어정의)
+		- [4.4    라이센스](#44-라이센스)
+	- [5 분류](#5-분류)
 		- [5.1    Errors](#51-errors)
 		- [5.2    Faults](#52-faults)
 		- [5.3    Latency](#53-latency)
 		- [5.4    Time to complete](#54-time-to-complete)
 		- [5.5    Long running API faults](#55-long-running-api-faults)
-	- [6    Client guidance](#6-client-guidance)
+	- [6    클라이언트 안내](#6-클라이언트-안내)
 		- [6.1    Ignore rule](#61-ignore-rule)
 		- [6.2    Variable order rule](#62-variable-order-rule)
 		- [6.3    Silent fail rule](#63-silent-fail-rule)
-	- [7    Consistency fundamentals](#7-consistency-fundamentals)
+	- [7    변하지 않는 기본](#7-변하지-않는-기본)
 		- [7.1    URL structure](#71-url-structure)
 		- [7.2    URL length](#72-url-length)
 		- [7.3    Canonical identifier](#73-canonical-identifier)
@@ -71,15 +71,15 @@ This document establishes the guidelines Microsoft REST APIs SHOULD follow so RE
 		- [9.7    Filtering](#97-filtering)
 		- [9.8    Pagination](#98-pagination)
 		- [9.9    Compound collection operations](#99-compound-collection-operations)
-	- [10    Delta queries](#10-delta-queries)
+	- [10    델타 쿼리](#10-델타-쿼리)
 		- [10.1    Delta links](#101-delta-links)
 		- [10.2    Entity representation](#102-entity-representation)
 		- [10.3    Obtaining a delta link](#103-obtaining-a-delta-link)
 		- [10.4    Contents of a delta link response](#104-contents-of-a-delta-link-response)
 		- [10.5    Using a delta link](#105-using-a-delta-link)
-	- [11    JSON standardizations](#11-json-standardizations)
-		- [11.1    JSON formatting standardization for primitive types](#111-json-formatting-standardization-for-primitive-types)
-		- [11.2    Guidelines for dates and times](#112-guidelines-for-dates-and-times)
+	- [11    JSON 표준화](#11-json-표준화)
+		- [11.1    JSON 포멧 표준화 for primitive types](#111-json-포멧-표준화-for-primitive-types)
+		- [11.2    가이드라인 for dates and times](#112-가이드라인-for-dates-and-times)
 		- [11.3    JSON serialization of dates and times](#113-json-serialization-of-dates-and-times)
 		- [11.4    Durations](#114-durations)
 		- [11.5    Intervals](#115-intervals)
@@ -88,87 +88,87 @@ This document establishes the guidelines Microsoft REST APIs SHOULD follow so RE
 		- [12.1    Versioning formats](#121-versioning-formats)
 		- [12.2    When to version](#122-when-to-version)
 		- [12.3    Definition of a breaking change](#123-definition-of-a-breaking-change)
-	- [13    Long running operations](#13-long-running-operations)
-		- [13.1    Resource based long running operations (RELO)](#131-resource-based-long-running-operations-relo)
-		- [13.2    Stepwise long running operations](#132-stepwise-long-running-operations)
+	- [13    장기운영](#13-장기운영)
+		- [13.1    Resource based 장기운영 (RELO)](#131-resource-based-long-running-operations-relo)
+		- [13.2    Stepwise 장기운영](#132-stepwise-long-running-operations)
 		- [13.3    Retention policy for operation results](#133-retention-policy-for-operation-results)
-	- [14    Push notifications via webhooks](#14-push-notifications-via-webhooks)
+	- [14    웹훅을 통한 푸시통지](#14-웹훅을-통한-푸시통지)
 		- [14.1    Scope](#141-scope)
-		- [14.2    Principles](#142-principles)
+		- [14.2    원칙](#142-원칙)
 		- [14.3    Types of subscriptions](#143-types-of-subscriptions)
 		- [14.4    Call sequences](#144-call-sequences)
 		- [14.5    Verifying subscriptions](#145-verifying-subscriptions)
 		- [14.6    Receiving notifications](#146-receiving-notifications)
 		- [14.7    Managing subscriptions programmatically](#147-managing-subscriptions-programmatically)
 		- [14.8    Security](#148-security)
-	- [15    Unsupported requests](#15-unsupported-requests)
+	- [15    지원하지 않는 요청](#15-지원하지 않는 요청)
 		- [15.1    Essential guidance](#151-essential-guidance)
 		- [15.2    Feature allow list](#152-feature-allow-list)
-	- [16     Appendix](#16-appendix)
+	- [16     참고](#16-참고)
 		- [16.1    Sequence diagram notes](#161-sequence-diagram-notes)
 	
 
 <!-- /TOC -->
 
 ## 3 Introduction
-Developers access most Microsoft Cloud Platform resources via HTTP interfaces.
+Developers access most 마이크로소프트 Cloud Platform resources via HTTP interfaces.
 Although each service typically provides language-specific frameworks to wrap their APIs, all of their operations eventually boil down to HTTP requests.
-Microsoft must support a wide range of clients and services and cannot rely on rich frameworks being available for every development environment.
-Thus a goal of these guidelines is to ensure Microsoft REST APIs can be easily and consistently consumed by any client with basic HTTP support.
+마이크로소프트 must support a wide range of clients and services and cannot rely on rich frameworks being available for every development environment.
+Thus a goal of these 가이드라인 is to ensure 마이크로소프트 REST APIs can be easily and consistently consumed by any client with basic HTTP support.
 
-To provide the smoothest possible experience for developers, it's important to have these APIs follow consistent design guidelines, thus making using them easy and intuitive.
-This document establishes the guidelines to be followed by Microsoft REST API developers for developing such APIs consistently.
+To provide the smoothest possible experience for developers, it's important to have these APIs follow consistent design 가이드라인, thus making using them easy and intuitive.
+This document establishes the 가이드라인 to be followed by 마이크로소프트 REST API developers for developing such APIs consistently.
 
 The benefits of consistency accrue in aggregate as well; consistency allows teams to leverage common code, patterns, documentation and design decisions.
 
-These guidelines aim to achieve the following:
-- Define consistent practices and patterns for all API endpoints across Microsoft.
+These 가이드라인 aim to achieve the following:
+- Define consistent practices and patterns for all API endpoints across 마이크로소프트.
 - Adhere as closely as possible to accepted REST/HTTP best practices in the industry at-large.*
-- Make accessing Microsoft Services via REST interfaces easy for all application developers.
+- Make accessing 마이크로소프트 Services via REST interfaces easy for all application developers.
 - Allow service developers to leverage the prior work of other services to implement, test and document REST endpoints defined consistently.
-- Allow for partners (e.g., non-Microsoft entities) to use these guidelines for their own REST endpoint design.
+- Allow for partners (e.g., non-마이크로소프트 entities) to use these 가이드라인 for their own REST endpoint design.
 
-*Note: The guidelines are designed to align with building services which comply with the REST architectural style, though they do not address or require building services that follow the REST constraints.
+*Note: The 가이드라인 are designed to align with building services which comply with the REST architectural style, though they do not address or require building services that follow the REST constraints.
 The term "REST" is used throughout this document to mean services that are in the spirit of REST rather than adhering to REST by the book.*
 
-### 3.1 Recommended reading
-Understanding the philosophy behind the REST Architectural Style is recommended for developing good HTTP-based services.
-If you are new to RESTful design, here are some good resources:
+### 3.1 추천글
+REST 스타일 구조에 대한 철학을 이해하기 위해선 잘 만들어진 HTTP 베이스의 서비스를 개발해보는것을 추천합니다.
+만약 당신이 RESTful 디자인을 처음 접한다면 아래 자료들을 참조해보길 권한다.
 
-[REST on Wikipedia][rest-on-wikipedia] -- Overview of common definitions and core ideas behind REST.
+[REST on Wikipedia][rest-on-wikipedia] -- REST에 대한 일반적인 정의들과 핵심 아이디어 정리
 
-[REST Dissertation][fielding] -- The chapter on REST in Roy Fielding's dissertation on Network Architecture, "Architectural Styles and the Design of Network-based Software Architectures"
+[REST Dissertation][fielding] -- 로이 필딩(Roy Fielding)의 논문 중 REST 에 관한 네트워크 아키텍쳐 챕터  , "Architectural Styles and the Design of Network-based Software Architectures"
 
-[RFC 7231][rfc-7231] -- Defines the specification for HTTP/1.1 semantics, and is considered the authoritative resource.
+[RFC 7231][rfc-7231] -- HTTP/1.1의미에 관한 스펙 정의와 권위있는 자료라고 생각되는 정의들
 
-[REST in Practice][rest-in-practice] -- Book on the fundamentals of REST.
+[REST in Practice][rest-in-practice] -- REST의 기초에 관한 책
 
-## 4 Interpreting the guidelines
-### 4.1 Application of the guidelines
-These guidelines are applicable to any REST API exposed publicly by Microsoft or any partner service.
-Private or internal APIs SHOULD also try to follow these guidelines because internal services tend to eventually be exposed publicly.
- Consistency is valuable to not only external customers but also internal service consumers, and these guidelines offer best practices useful for any service.
+## 4 가이드라인 분석
+### 4.1 가이드라인 어플리케이션
+These 가이드라인 are applicable to any REST API exposed publicly by 마이크로소프트 or any partner service.
+Private or internal APIs SHOULD also try to follow these 가이드라인 because internal services tend to eventually be exposed publicly.
+ Consistency is valuable to not only external customers but also internal service consumers, and these 가이드라인 offer best practices useful for any service.
 
-There are legitimate reasons for exemption from these guidelines.
-Obviously a REST service that implements or must interoperate with some externally defined REST API must be compatible with that API and not necessarily these guidelines.
+There are legitimate reasons for exemption from these 가이드라인.
+Obviously a REST service that implements or must interoperate with some externally defined REST API must be compatible with that API and not necessarily these 가이드라인.
 Some services MAY also have special performance needs that require a different format, such as a binary protocol.
 
-### 4.2 Guidelines for existing services and versioning of services
-We do not recommend making a breaking change to a service that pre-dates these guidelines simply for compliance sake.
+### 4.2 가이드라인 for existing services and versioning of services
+We do not recommend making a breaking change to a service that pre-dates these 가이드라인 simply for compliance sake.
 The service SHOULD try to become compliant at the next version release when compatibility is being broken anyway.
 When a service adds a new API, that API SHOULD be consistent with the other APIs of the same version.
-So if a service was written against version 1.0 of the guidelines, new APIs added incrementally to the service SHOULD also follow version 1.0. The service can then upgrade to align with the latest version of the guidelines at the service's next major release.
+So if a service was written against version 1.0 of the 가이드라인, new APIs added incrementally to the service SHOULD also follow version 1.0. The service can then upgrade to align with the latest version of the 가이드라인 at the service's next major release.
 
-### 4.3 Requirements language
+### 4.3 용어정의
 The keywords "MUST," "MUST NOT," "REQUIRED," "SHALL," "SHALL NOT," "SHOULD," "SHOULD NOT," "RECOMMENDED," "MAY," and "OPTIONAL" in this document are to be interpreted as described in [RFC 2119](https://www.ietf.org/rfc/rfc2119.txt). 
 
-### 4.4 License
+### 4.4 라이센스
 
 This work is licensed under the Creative Commons Attribution 4.0 International License.
 To view a copy of this license, visit http://creativecommons.org/licenses/by/4.0/ or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
 
-## 5 Taxonomy
-As part of onboarding to Microsoft REST API Guidelines, services MUST comply with the taxonomy defined below.
+## 5 분류
+As part of onboarding to 마이크로소프트 REST API 가이드라인, services MUST comply with the 분류 defined below.
 
 ### 5.1 Errors
 Errors, or more specifically Service Errors, are defined as a client passing invalid data to the service and the service _correctly_ rejecting that data.
@@ -198,7 +198,7 @@ Services that expose long operations MUST track "Time to Complete" metrics aroun
 For a Long Running API, it's possible for both the initial request to begin the operation and the request to retrieve the results to technically work (each passing back a 200), but for the underlying operation to have failed.
 Long Running faults MUST roll up as Faults into the overall Availability metrics.
 
-## 6 Client guidance
+## 6 클라이언트 안내
 To ensure the best possible experience for clients talking to a REST service, clients SHOULD adhere to the following best practices:
 
 ### 6.1 Ignore rule
@@ -219,7 +219,7 @@ Clients MAY rely on ordering behavior explicitly identified by the service.
 ### 6.3 Silent fail rule
 Clients requesting OPTIONAL server functionality (such as optional headers) MUST be resilient to the server ignoring that particular functionality.
 
-## 7 Consistency fundamentals
+## 7 변하지 않는 기본
 ### 7.1 URL structure
 Humans SHOULD be able to easily read and construct URLs.
 
@@ -234,7 +234,7 @@ https://api.contoso.com/v1.0/people/jdoe@contoso.com/inbox
 An example URL that is not friendly is:
 
 ```
-https://api.contoso.com/EWS/OData/Users('jdoe@microsoft.com')/Folders('AAMkADdiYzI1MjUzLTk4MjQtNDQ1Yy05YjJkLWNlMzMzYmIzNTY0MwAuAAAAAACzMsPHYH6HQoSwfdpDx-2bAQCXhUk6PC1dS7AERFluCgBfAAABo58UAAA=')
+https://api.contoso.com/EWS/OData/Users('jdoe@마이크로소프트.com')/Folders('AAMkADdiYzI1MjUzLTk4MjQtNDQ1Yy05YjJkLWNlMzMzYmIzNTY0MwAuAAAAAACzMsPHYH6HQoSwfdpDx-2bAQCXhUk6PC1dS7AERFluCgBfAAABo58UAAA=')
 ```
 
 A frequent pattern that comes up is the use of URLs as values.
@@ -257,7 +257,7 @@ Services that can generate URLs longer than 2,083 characters MUST make accommoda
 Here are some sources for determining what target clients support:
 
  * [http://stackoverflow.com/a/417184](http://stackoverflow.com/a/417184)
- * [https://blogs.msdn.microsoft.com/ieinternals/2014/08/13/url-length-limits/](https://blogs.msdn.microsoft.com/ieinternals/2014/08/13/url-length-limits/)
+ * [https://blogs.msdn.마이크로소프트.com/ieinternals/2014/08/13/url-length-limits/](https://blogs.msdn.마이크로소프트.com/ieinternals/2014/08/13/url-length-limits/)
  
 Also note that some technology stacks have hard and adjustable url limits, so keep this in mind as you design your services.
 
@@ -278,7 +278,7 @@ Operations MUST use the proper HTTP methods whenever possible, and operation ide
 HTTP methods are frequently referred to as the HTTP verbs.
 The terms are synonymous in this context, however the HTTP specification uses the term method.
 
-Below is a list of methods that Microsoft REST services SHOULD support.
+Below is a list of methods that 마이크로소프트 REST services SHOULD support.
 Not all resources will support all methods, but all resources using the methods below MUST conform to their usage.
 
 Method  | Description                                                                                                                | Is Idempotent
@@ -315,7 +315,7 @@ Services MAY also return the full metadata for the created item in the response.
 
 #### 7.4.2 PATCH
 PATCH has been standardized by IETF as the method to be used for updating an existing object incrementally (see [RFC 5789][rfc-5789]).
-Microsoft REST API Guidelines compliant APIs SHOULD support PATCH.
+마이크로소프트 REST API 가이드라인 compliant APIs SHOULD support PATCH.
 
 #### 7.4.3 Creating resources via PATCH (UPSERT semantics)
 Services that allow callers to specify key values on create SHOULD support UPSERT semantics, and those that do MUST support creating resources using PATCH.
@@ -342,7 +342,7 @@ Where {help} is the URL to a documentation resource.
 For examples on use of OPTIONS, see [preflighting CORS cross-domain calls][cors-preflight].
 
 ### 7.5 Standard request headers
-The table of request headers below SHOULD be used by Microsoft REST API Guidelines services.
+The table of request headers below SHOULD be used by 마이크로소프트 REST API 가이드라인 services.
 Using these headers is not mandated, but if used they MUST be used consistently.
 
 All header values MUST follow the syntax rules set forth in the specification where the header field is defined.
@@ -352,7 +352,7 @@ Header                            | Type                                  | Desc
 --------------------------------- | ------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 Authorization                     | String                                           | Authorization header for the request
 Date                              | Date                                             | Timestamp of the request, based on the client's clock, in [RFC 5322][rfc-5322-3-3] date and time format.  The server SHOULD NOT make any assumptions about the accuracy of the client's clock.  This header MAY be included in the request, but MUST be in this format when supplied.  Greenwich Mean Time (GMT) MUST be used as the time zone reference for this header when it is provided.  For example: `Wed, 24 Aug 2016 18:41:30 GMT`.  Note that GMT is exactly equal to UTC (Coordinated Universal Time) for this purpose.
-Accept                            | Content type                                     | The requested content type for the response such as: <ul><li>application/xml</li><li>text/xml</li><li>application/json</li><li>text/javascript (for JSONP)</li></ul>Per the HTTP guidelines, this is just a hint and responses MAY have a different content type, such as a blob fetch where a successful response will just be the blob stream as the payload. For services following OData, the preference order specified in OData SHOULD be followed.
+Accept                            | Content type                                     | The requested content type for the response such as: <ul><li>application/xml</li><li>text/xml</li><li>application/json</li><li>text/javascript (for JSONP)</li></ul>Per the HTTP 가이드라인, this is just a hint and responses MAY have a different content type, such as a blob fetch where a successful response will just be the blob stream as the payload. For services following OData, the preference order specified in OData SHOULD be followed.
 Accept-Encoding                   | Gzip, deflate                                    | REST endpoints SHOULD support GZIP and DEFLATE encoding, when applicable. For very large resources, services MAY ignore and return uncompressed data.
 Accept-Language                   | "en", "es", etc.                                 | Specifies the preferred language for the response. Services are not required to support this, but if a service supports localization it MUST do so through the Accept-Language header.
 Accept-Charset                    | Charset type like "UTF-8"                        | Default is UTF-8, but services SHOULD be able to handle ISO-8859-1.
@@ -374,9 +374,9 @@ ETag               | When the requested resource has an entity tag | The ETag re
 ### 7.7 Custom headers
 Custom headers MUST NOT be required for the basic operation of a given API.
 
-Some of the guidelines in this document prescribe the use of nonstandard HTTP headers.
+Some of the 가이드라인 in this document prescribe the use of nonstandard HTTP headers.
 In addition, some services MAY need to add extra functionality, which is exposed via HTTP headers.
-The following guidelines help maintain consistency across usage of custom headers.
+The following 가이드라인 help maintain consistency across usage of custom headers.
 
 Headers that are not standard HTTP headers MUST have one of two formats:
 
@@ -406,7 +406,7 @@ Consistent with their organization's privacy policy, clients SHOULD NOT transmit
 Consequently, a service SHOULD accept PII parameters transmitted as headers.
 
 However, there are many scenarios where the above recommendations cannot be followed due to client or software limitations.
-To address these limitations, services SHOULD also accept these PII parameters as part of the URL consistent with the rest of these guidelines.
+To address these limitations, services SHOULD also accept these PII parameters as part of the URL consistent with the rest of these 가이드라인.
 
 Services that accept PII parameters -- whether in the URL or as headers -- SHOULD be compliant with privacy policy specified by their organization's engineering leadership.
 This will typically include recommending that clients prefer headers for transmission and implementations adhere to special precautions to ensure that logs and other service data collection are properly handled.
@@ -437,7 +437,7 @@ Accept: application/json
 ```
 
 #### 7.10.2 Error condition responses
-For nonsuccess conditions, developers SHOULD be able to write one piece of code that handles errors consistently across different Microsoft REST API Guidelines services.
+For nonsuccess conditions, developers SHOULD be able to write one piece of code that handles errors consistently across different 마이크로소프트 REST API 가이드라인 services.
 This allows building of simple and reliable infrastructure to handle exceptions as a separate flow from successful responses.
 The following is based on the OData v4 JSON spec.
 However, it is very generic and does not require specific OData constructs.
@@ -581,7 +581,7 @@ Services SHOULD be able to be accessed from simple HTTP tools such as curl witho
 Service developer portals SHOULD provide the equivalent of "Get Developer Token" to facilitate experimentation and curl support.
 
 ## 8 CORS
-Services compliant with the Microsoft REST API Guidelines MUST support [CORS (Cross Origin Resource Sharing)][cors].
+Services compliant with 마이크로소프트 REST API 가이드라인 MUST support [CORS (Cross Origin Resource Sharing)][cors].
 Services SHOULD support an allowed origin of CORS * and enforce authorization through valid OAuth tokens.
 Services SHOULD NOT support user credentials with origin validation.
 There MAY be exceptions for special cases.
@@ -635,7 +635,7 @@ More on JSONP at Wikipedia: [JSONP](https://en.wikipedia.org/wiki/JSONP).
 ### 9.1 Item keys
 Services MAY support durable identifiers for each item in the collection, and that identifier SHOULD be represented in JSON as "id". These durable identifiers are often used as item keys.
 
-Collections that support durable identifiers MAY support delta queries.
+Collections that support durable identifiers MAY support 델타 쿼리.
 
 ### 9.2 Serialization
 Collections are represented in JSON using standard array notation.
@@ -781,7 +781,7 @@ Will return all people whose name is David sorted in ascending order by hireDate
 #### 9.6.1 Interpreting a sorting expression
 Sorting parameters MUST be consistent across pages, as both client and server-side paging is fully compatible with sorting.
 
-If a service does not support sorting by a property named in a _$orderBy_ expression, the service MUST respond with an error message as defined in the Responding to Unsupported Requests section.
+If a service does not support sorting by a property named in a _$orderBy_ expression, the service MUST respond with an error message as defined in the Responding to 지원하지 않는 요청 섹션.
 
 ### 9.7 Filtering
 The _$filter_ querystring parameter allows clients to filter a collection of resources that are addressed by a request URL.
@@ -947,8 +947,8 @@ When these operations are performed together, the evaluation order MUST be:
 2. **Sorting**. The potentially filtered list is sorted according to the sort criteria.
 3. **Pagination**. The materialized paginated view is presented over the filtered, sorted list. This applies to both server-driven pagination and client-driven pagination.
 
-## 10 Delta queries
-Services MAY choose to support delta queries.
+## 10 델타 쿼리
+Services MAY choose to support 델타 쿼리.
 
 ### 10.1 Delta links
 Delta links are opaque, service-generated links that the client uses to retrieve subsequent changes to a result.
@@ -963,7 +963,7 @@ The key principles of the Delta Query are:
 - Re-evaluate the query and compare it to original set of results; every entry uniquely in the current set MUST be returned as an Add operation, and every entry uniquely in the original set MUST be returned as a "remove" operation.
 - Each entity that previously did not match the criteria but matches it now MUST be returned as an "add"; conversely, each entity that previously matched the query but no longer does MUST be returned as a "@removed" entry.
 - Entities that have changed MUST be included in the set using their standard representation.
-- Services MAY add additional metadata to the "@removed" node, such as a reason for removal, or a "removed at" timestamp. We recommend teams coordinate with the Microsoft REST API Guidelines Working Group on extensions to help maintain consistency.
+- Services MAY add additional metadata to the "@removed" node, such as a reason for removal, or a "removed at" timestamp. We recommend teams coordinate with 마이크로소프트 REST API 가이드라인 Working Group on extensions to help maintain consistency.
 
 The delta link MUST NOT encode any client top or skip value.
 
@@ -1035,11 +1035,11 @@ This delta link MAY be identical to the delta link resulting in the empty collec
 
 If the delta link is no longer valid, the service MUST respond with _410 Gone_. The response SHOULD include a Location header that the client can use to retrieve a new baseline set of results.
 
-## 11 JSON standardizations
-### 11.1 JSON formatting standardization for primitive types
+## 11 JSON 표준화
+### 11.1 JSON 포멧 표준화 for primitive types
 Primitive values MUST be serialized to JSON following the rules of [RFC4627][rfc-4627].
 
-### 11.2 Guidelines for dates and times
+### 11.2 가이드라인 for dates and times
 #### 11.2.1 Producing dates
 Services MUST produce dates using the `DateLiteral` format, and SHOULD use the `Iso8601Literal` format unless there are compelling reasons to do otherwise.
 Services that do use the `StructuredDateLiteral` format MUST NOT produce dates using the `T` kind unless BOTH the additional precision is REQUIRED and ECMAScript clients are explicitly unsupported.
@@ -1103,7 +1103,7 @@ DateValue:
   Iso8601Literal        ; as above
 ```
 
-#### 11.3.2 Commentary on date formatting
+#### 11.3.2 Commentary on date 포멧
 A `DateLiteral` using the `Iso8601Literal` production is relatively straightforward.
 Here is an example of an object with a property named `creationDate` that is set to February 13, 2015, at 1:15 p.m. UTC:
 
@@ -1122,7 +1122,7 @@ O        | RealNumber      | "OLE Date"; integral part is the number of days sin
 T        | SignedInteger   | "Ticks"; number of ticks (100-nanosecond intervals) since midnight January 1, 1601. *See note below.*                                             | [MSDN][ticks-time]
 U        | SignedInteger   | "UNIX"; number of seconds since midnight, January 1, 1970.                                                                                        | [MSDN][unix-time]
 W        | SignedInteger   | "Windows"; number of milliseconds since midnight January 1, 1601. *See note below.*                                                               | [MSDN][windows-time]
-X        | RealNumber      | "Excel"; as for `O` but the year 1900 is incorrectly treated as a leap year, and day 0 is "January 0 (zero)."                                     | [Microsoft Support][excel-time]
+X        | RealNumber      | "Excel"; as for `O` but the year 1900 is incorrectly treated as a leap year, and day 0 is "January 0 (zero)."                                     | [마이크로소프트 Support][excel-time]
 
 **Important note for `C` and `W` kinds:** The native CLR and Windows times are represented by 100-nanosecond "tick" values.
 To interoperate with ECMAScript clients that have limited precision, _these values MUST be converted to and from milliseconds_ when (de)serialized as a `DateLiteral`.
@@ -1180,7 +1180,7 @@ Leaving out the value for [n] means an unbounded number of repetitions.
 For example, to repeat the interval of "P1Y2M10DT2H30M" five times starting at "2008-03-01T13:00:00Z," use "R5/2008-03-01T13:00:00Z/P1Y2M10DT2H30M."
 
 ## 12 Versioning
-**All APIs compliant with the Microsoft REST API Guidelines MUST support explicit versioning.** It's critical that clients can count on services to be stable over time, and it's critical that services can add features and make changes.
+**All APIs compliant with 마이크로소프트 REST API 가이드라인 MUST support explicit versioning.** It's critical that clients can count on services to be stable over time, and it's critical that services can add features and make changes.
 
 ### 12.1 Versioning formats
 Services are versioned using a Major.Minor versioning scheme.
@@ -1192,11 +1192,11 @@ Two options for specifying the version of a REST API request are supported:
 Guidance for choosing between the two options is as follows:
 
 1. Services co-located behind a DNS endpoint MUST use the same versioning mechanism.
-2. In this scenario, a consistent user experience across the endpoint is paramount. The Microsoft REST API Guidelines Working Group recommends that new top-level DNS endpoints are not created without explicit conversations with your organization's leadership team.
+2. In this scenario, a consistent user experience across the endpoint is paramount. 마이크로소프트 REST API 가이드라인 Working Group recommends that new top-level DNS endpoints are not created without explicit conversations with your organization's leadership team.
 3. Services that guarantee the stability of their REST API's URL paths, even through future versions of the API, MAY adopt the query string parameter mechanism. This means the naming and structure of the relationships described in the API cannot evolve after the API ships, even across versions with breaking changes.
 4. Services that cannot ensure URL path stability across future versions MUST embed the version in the URL path.
 
-Certain bedrock services such as Microsoft's Azure Active Directory may be exposed behind multiple endpoints.
+Certain bedrock services such as 마이크로소프트's Azure Active Directory may be exposed behind multiple endpoints.
 Such services MUST support the versioning mechanisms of each endpoint, even if that means supporting multiple versioning mechanisms.
 
 #### 12.1.1 Group versioning
@@ -1272,20 +1272,20 @@ Services that are co-located behind a DNS Endpoint with other services MUST be c
 
 The applicable changes described [in this section of the OData V4 spec][odata-breaking-changes] SHOULD be considered part of the minimum bar that all services MUST consider a breaking change.
 
-## 13 Long running operations
-Long running operations, sometimes called async operations, tend to mean different things to different people.
-This section sets forth guidance around different types of long running operations, and describes the wire protocols and best practices for these types of operations.
+## 13 장기운영
+장기운영, sometimes called async operations, tend to mean different things to different people.
+This section sets forth guidance around different types of 장기운영, and describes the wire protocols and best practices for these types of operations.
 
 1. One or more clients MUST be able to monitor and operate on the same resource at the same time.
 2. The state of the system SHOULD be discoverable and testable at all times. Clients SHOULD be able to determine the system state even if the operation tracking resource is no longer active. The act of querying the state of a long running operation should itself leverage principles of the web. i.e. well defined resources with uniform interface semantics. Clients MAY issue a GET on some resource to determine the state of a long running operation
-3. Long running operations SHOULD work for clients looking to "Fire and Forget" and for clients looking to actively monitor and act upon results.
+3. 장기운영 SHOULD work for clients looking to "Fire and Forget" and for clients looking to actively monitor and act upon results.
 4. Cancellation does not explicitly mean rollback. On a per-API defined case it may mean rollback, or compensation, or completion, or partial completion, etc. Following a cancelled operation, It SHOULD NOT be a client's responsibility to return the service to a consistent state which allows continued service.
 
-### 13.1 Resource based long running operations (RELO)
+### 13.1 Resource based 장기운영 (RELO)
 Resource based modeling is where the status of an operation is encoded in the resource and the wire protocol used is the standard synchronous protocol.
 In this model state transitions are well defined and goal states are similarly defined.
 
-_This is the preferred model for long running operations and should be used wherever possible._ Avoiding the complexity and mechanics of the LRO Wire Protocol makes things simpler for our users and tooling chain.
+_This is the preferred model for 장기운영 and should be used wherever possible._ Avoiding the complexity and mechanics of the LRO Wire Protocol makes things simpler for our users and tooling chain.
 
 An example may be a machine reboot, where the operation itself completes synchronously but the GET operation on the virtual machine resource would have a "state: Rebooting", "state: Running" that could be queried at any time.
 
@@ -1302,13 +1302,13 @@ In this scenario the databases segment is processing the PUT operation.
 
 Services MAY also use the hybrid defined below.
 
-### 13.2 Stepwise long running operations
+### 13.2 Stepwise 장기운영
 A stepwise operation is one that takes a long, and often unpredictable, length of time to complete, and doesn't offer state transition modeled in the resource.
-This section outlines the approach that services should use to expose such long running operations.
+This section outlines the approach that services should use to expose such 장기운영.
 
 Service MAY expose stepwise operations.
 
-> Stepwise Long Running Operations are sometimes called "Async" operations.
+> Stepwise 장기운영 are sometimes called "Async" operations.
 This causes confusion, as it mixes elements of platforms ("Async / await", "promises", "futures") with elements of API operation.
 This document uses the term "Stepwise Long Running Operation" or often just "Stepwise Operation" to avoid confusion over the word "Async".
 
@@ -1611,17 +1611,18 @@ A recommended minimum retention time is 24 hours.
 
 Operations SHOULD transition to "tombstone" for an additional period of time prior to being purged from the system.
 
-## 14 Push notifications via webhooks
+## 14 웹훅을 통한 푸시통지
 ### 14.1 Scope
-Services MAY implement push notifications via web hooks.
+서비스는 웹훅을 통한 푸시통지 MAY 구현할수 있다(MAY).
 This section addresses the following key scenario:
 
 > Push notification via HTTP Callbacks, often called Web Hooks, to publicly-addressable servers.
+> HTTP 콜백을 통한 푸시통지는 공개되어 접근할 수 있는 서버를 위해 때로는 웹훅에 의해 호출된다.
 
 The approach set forth is chosen due to its simplicity, broad applicability, and low barrier to entry for service subscribers.
 It's intended as a minimal set of requirements and as a starting point for additional functionality.
 
-### 14.2 Principles
+### 14.2 원칙
 The core principles for services that support web hooks are:
 
 1. Services MUST implement at least a poke/pull model. In the poke/pull model, a notification is sent to a client, and clients then send a request to get the current state or the record of change since their last notification. This approach avoids complexities around message ordering, missed messages, and change sets.  Services MAY add more data to provide rich notifications.
@@ -1811,7 +1812,7 @@ If the subscription was successfully created, the service MUST respond with the 
 Property Name      | Required | Notes
 ------------------ | -------- | -------------------------------------------------------------------------------------------
 id                 | Yes      | Unique ID of the new subscription that can be used later to update/delete the subscription.
-expirationDateTime | No       | Uses existing Microsoft REST API Guidelines defined time formats.
+expirationDateTime | No       | Uses existing 마이크로소프트 REST API 가이드라인 defined time formats.
 
 Creation of subscriptions SHOULD be idempotent.
 The combination of properties scoped to the auth token, provides a uniqueness constraint.
@@ -1954,9 +1955,9 @@ This will typically include recommending that clients prefer SSL connections and
 For example, services may not want to require developers to generate certificates to onboard.
 Services might only enable this on test accounts.
 
-## 15 Unsupported requests
-RESTful API clients MAY request functionality that is currently unsupported.
-RESTful APIs MUST respond to valid but unsupported requests consistent with this section.
+## 15 지원하지 않는 요청
+RESTful API 클라이언트는 현재 지원하지 않는 기능적인 요청을 할 수 있습니다.(MAY)
+RESTful APIs 이 섹션에서 설명하고 있는 지원하지 않는 요청들을 제외한 나머지들은 반드시(MUST) 유효하게 반응해야 합니다.
 
 ### 15.1 Essential guidance
 RESTful APIs will often choose to limit functionality that can be performed by clients.
@@ -1976,7 +1977,7 @@ The features are:
 #### 15.2.1 Error response
 Services MUST provide an error response if a caller requests an unsupported feature found in the feature allow list.
 The error response MUST be an HTTP status code from the 4xx series, indicating that the request cannot be fulfilled.
-Unless a more specific error status is appropriate for the given request, services SHOULD return "400 Bad Request" and an error payload conforming to the error response guidance provided in the Microsoft REST API Guidelines.
+Unless a more specific error status is appropriate for the given request, services SHOULD return "400 Bad Request" and an error payload conforming to the error response guidance provided in 마이크로소프트 REST API 가이드라인.
 Services SHOULD include enough detail in the response message for a developer to determine exactly what portion of the request is not supported.
 
 Example:
@@ -1998,7 +1999,7 @@ Content-Type: application/json
 }
 ```
 
-## 16 Appendix
+## 16 참고
 ### 16.1 Sequence diagram notes
 All sequence diagrams in this document are generated using the WebSequenceDiagrams.com web site.
 To generate them, paste the text below into the web tool.
@@ -2143,13 +2144,13 @@ note right of App Server: Update status and cache new "since" token
 [cors-simple-headers]: http://www.w3.org/TR/access-control/#simple-header
 [rfc-4627]: https://tools.ietf.org/html/rfc4627
 [iso-8601]: http://www.ecma-international.org/ecma-262/5.1/#sec-15.9.1.15
-[clr-time]: https://msdn.microsoft.com/en-us/library/System.DateTime(v=vs.110).aspx
+[clr-time]: https://msdn.마이크로소프트.com/en-us/library/System.DateTime(v=vs.110).aspx
 [ecmascript-time]: http://www.ecma-international.org/ecma-262/5.1/#sec-15.9.1.1
-[ole-date]: https://msdn.microsoft.com/en-us/library/windows/desktop/ms221199(v=vs.85).aspx
-[ticks-time]: https://msdn.microsoft.com/en-us/library/windows/desktop/ms724290(v=vs.85).aspx
-[unix-time]: https://msdn.microsoft.com/en-us/library/1f4c8f33.aspx
-[windows-time]: https://msdn.microsoft.com/en-us/library/windows/desktop/ms724290(v=vs.85).aspx
-[excel-time]: http://support.microsoft.com/kb/214326?wa=wsignin1.0
+[ole-date]: https://msdn.마이크로소프트.com/en-us/library/windows/desktop/ms221199(v=vs.85).aspx
+[ticks-time]: https://msdn.마이크로소프트.com/en-us/library/windows/desktop/ms724290(v=vs.85).aspx
+[unix-time]: https://msdn.마이크로소프트.com/en-us/library/1f4c8f33.aspx
+[windows-time]: https://msdn.마이크로소프트.com/en-us/library/windows/desktop/ms724290(v=vs.85).aspx
+[excel-time]: http://support.마이크로소프트.com/kb/214326?wa=wsignin1.0
 [wikipedia-iso8601-durations]: http://en.wikipedia.org/wiki/ISO_8601#Durations
 [wikipedia-iso8601-intervals]: http://en.wikipedia.org/wiki/ISO_8601#Time_intervals
 [wikipedia-iso8601-repeatingintervals]: http://en.wikipedia.org/wiki/ISO_8601#Repeating_intervals
